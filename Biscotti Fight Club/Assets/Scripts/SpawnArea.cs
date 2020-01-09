@@ -14,21 +14,41 @@ public class SpawnType
 
     [Tooltip("The minimum amount to spawn at one time.")]
     public int min = 1;
+}
 
+public enum SpawnMethod
+{
+    OnceAtStart,
+    Interval,
+    MouseClick
 }
 
 public class SpawnArea : MonoBehaviour
 {
-    [SerializeField] private SpawnType[] spawnTypes;
-    [SerializeField] private float yPos = 0f;
-    [SerializeField] private float spawnRate = 3f;
+    [SerializeField] 
+    private SpawnType[] spawnTypes;
+    [SerializeField]
+    private bool SetSpawnHeight = false;
+    [SerializeField] [DrawIf("SetSpawnHeight", true)]
+    private float yPos = 0f;
+    [SerializeField] 
+    public SpawnMethod spawnMethod = SpawnMethod.Interval;
+    [SerializeField]
+    [DrawIf("spawnMethod", SpawnMethod.Interval)]
+    public float spawnRate = 3f;
+    [SerializeField]
+    [DrawIf("spawnMethod", SpawnMethod.MouseClick)]
+    public float fireRate = 2f;
+    [SerializeField]
+    [DrawIf("spawnMethod", SpawnMethod.MouseClick)]
+    public float fireThreshold = 0.12f;
 
-    private Rect AreaToSpawnIn;
     private float xMin;
     private float xMax;
     private float zMin;
     private float zMax;
     private float timePassed;
+    private bool fired = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,12 +58,45 @@ public class SpawnArea : MonoBehaviour
 
         zMin = transform.position.z - (transform.localScale.z * 0.5f);
         zMax = zMin + transform.localScale.z;
+
+        if (spawnMethod == SpawnMethod.OnceAtStart) Spawn();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(timePassed - spawnRate > 0f)
+        switch (spawnMethod)
+        {
+            case SpawnMethod.Interval:
+                IntervalSpawn();
+                break;
+            case SpawnMethod.MouseClick:
+                if (Input.GetAxis("Fire1") > 0f && !fired)
+                {
+                    Spawn();
+                    fired = true;
+                }
+                ResetFire();
+                break;
+            case SpawnMethod.OnceAtStart:
+            default:
+                break;
+        }
+    }
+
+    private void ResetFire()
+    {
+        if (timePassed - fireRate > 0f && Input.GetAxis("Fire1") < fireThreshold)
+        {
+            fired = false;
+            timePassed = 0f;
+        }
+        timePassed += Time.unscaledDeltaTime;
+    }
+
+    private void IntervalSpawn()
+    {
+        if (timePassed - spawnRate > 0f)
         {
             Spawn();
             timePassed = 0f;
@@ -56,6 +109,12 @@ public class SpawnArea : MonoBehaviour
         foreach( SpawnType spawn in spawnTypes)
         {
             int amount = Random.Range(spawn.min, spawn.max);
+
+            if (!SetSpawnHeight)
+            {
+                float prefabHeight = spawn.prefab.GetComponent<Collider>().bounds.extents.y;
+                yPos = transform.position.y + prefabHeight;
+            }
             for (int i = 0; i < amount; i++)
             {
                 float xPos = Random.Range(xMin, xMax);

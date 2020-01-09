@@ -8619,8 +8619,12 @@ MonoBehaviour:
   - prefab: {fileID: 506731049}
     max: 5
     min: 1
-  yPos: 2.5
-  spawnRate: 1
+  SetSpawnHeight: 0
+  yPos: 4.3
+  spawnMethod: 1
+  spawnRate: 3
+  fireRate: 2
+  fireThreshold: 0.12
 --- !u!64 &129539088
 MeshCollider:
   m_ObjectHideFlags: 0
