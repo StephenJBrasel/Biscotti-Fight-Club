@@ -25,8 +25,10 @@ public enum SpawnMethod
 
 public class SpawnArea : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private SpawnType[] spawnTypes;
+    [SerializeField]
+    private float MaxInstancesAllowed = float.MaxValue;
     [SerializeField]
     private bool SetSpawnHeight = false;
     [SerializeField] [DrawIf("SetSpawnHeight", true)]
@@ -49,6 +51,7 @@ public class SpawnArea : MonoBehaviour
     private float zMax;
     private float timePassed;
     private bool fired = false;
+    private List<Transform> instances;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +62,10 @@ public class SpawnArea : MonoBehaviour
         zMin = transform.position.z - (transform.localScale.z * 0.5f);
         zMax = zMin + transform.localScale.z;
 
-        if (spawnMethod == SpawnMethod.OnceAtStart) Spawn();
+        if (spawnMethod == SpawnMethod.OnceAtStart) 
+            Spawn();
+        if(MaxInstancesAllowed != float.MaxValue)
+            instances = new List<Transform>();
     }
 
     // Update is called once per frame
@@ -117,10 +123,16 @@ public class SpawnArea : MonoBehaviour
             }
             for (int i = 0; i < amount; i++)
             {
+                if(instances.Count > MaxInstancesAllowed)
+                {
+                    Transform killMe = instances[0];
+                    instances.RemoveAt(0);
+                    Destroy(killMe.gameObject);
+                }
                 float xPos = Random.Range(xMin, xMax);
                 float zPos = Random.Range(zMin, zMax);
                 Vector3 startPos = new Vector3(xPos, yPos, zPos);
-                Instantiate(spawn.prefab, startPos, Quaternion.identity);
+                instances.Add(Instantiate(spawn.prefab, startPos, Quaternion.identity).transform);
             }
         }
     }
