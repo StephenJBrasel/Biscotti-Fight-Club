@@ -56,11 +56,11 @@ public class SpawnArea : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        xMin = transform.position.x - (transform.localScale.x * 0.5f);
-        xMax = xMin + transform.localScale.x;
+        //xMin = transform.position.x - (transform.localScale.x * 0.5f);
+        //xMax = xMin + transform.localScale.x;
 
-        zMin = transform.position.z - (transform.localScale.z * 0.5f);
-        zMax = zMin + transform.localScale.z;
+        //zMin = transform.position.z - (transform.localScale.z * 0.5f);
+        //zMax = zMin + transform.localScale.z;
 
         if (spawnMethod == SpawnMethod.OnceAtStart) 
             Spawn();
@@ -112,7 +112,13 @@ public class SpawnArea : MonoBehaviour
 
     public void Spawn()
     {
-        foreach( SpawnType spawn in spawnTypes)
+        xMin = transform.position.x - (transform.localScale.x * 0.5f);
+        xMax = xMin + transform.localScale.x;
+
+        zMin = transform.position.z - (transform.localScale.z * 0.5f);
+        zMax = zMin + transform.localScale.z;
+
+        foreach ( SpawnType spawn in spawnTypes)
         {
             int amount = Random.Range(spawn.min, spawn.max);
 

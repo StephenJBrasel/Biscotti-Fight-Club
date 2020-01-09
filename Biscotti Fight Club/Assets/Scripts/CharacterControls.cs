@@ -1,77 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityStandardAssets.CrossPlatformInput;
 
 public class CharacterControls : MonoBehaviour
 {
-	public float XSensitivity = 2f;
-	public float YSensitivity = 2f;
-	public float smoothTime = 5f;
-	public float MinimumX = -90F;
-	public float MaximumX = 90F;
-	public bool clampVerticalRotation = true;
-	public bool smooth;
+	[HideInInspector]
+	public bool hasItem = false;
+	[SerializeField] private Transform itemLocation;
+	[SerializeField] private GameObject spawn;
+	[SerializeField] private LayerMask layerMask;
+	[SerializeField] private float throwForce;
+	[SerializeField] private float fireInterval;
 
-	private Camera m_Camera;
-	private Quaternion m_CharacterTargetRot;
-	private Quaternion m_CameraTargetRot;
+	private Yeet itemToBeYeeted;
+	private Camera camera;
+	private float timepassed;
 
-	// Start is called before the first frame update
-	void Start()
-    {
-        m_Camera = Camera.main;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        RotateView();
-    }
-    private void RotateView()
-    {
-        LookRotation(transform, m_Camera.transform);
-    }
-
-	public void LookRotation(Transform character, Transform camera)
+	private void Start()
 	{
-		float yRot = Input.GetAxis("Mouse X") * XSensitivity;
-		float xRot = Input.GetAxis("Mouse Y") * YSensitivity;
-
-		m_CharacterTargetRot *= Quaternion.Euler(0f, yRot, 0f);
-		m_CameraTargetRot *= Quaternion.Euler(-xRot, 0f, 0f);
-
-		if (clampVerticalRotation)
-			m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
-
-		if (smooth)
-		{
-			character.localRotation = Quaternion.Slerp(character.localRotation, m_CharacterTargetRot,
-				smoothTime * Time.deltaTime);
-			camera.localRotation = Quaternion.Slerp(camera.localRotation, m_CameraTargetRot,
-				smoothTime * Time.deltaTime);
-		}
-		else
-		{
-			character.localRotation = m_CharacterTargetRot;
-			camera.localRotation = m_CameraTargetRot;
-		}
-
-		//UpdateCursorLock();
+		camera = GetComponentInChildren<Camera>();
+		SpawnItem();
 	}
-	Quaternion ClampRotationAroundXAxis(Quaternion q)
+
+	private void Update()
 	{
-		q.x /= q.w;
-		q.y /= q.w;
-		q.z /= q.w;
-		q.w = 1.0f;
+		if (Input.GetAxis("Fire1") > 0f)
+		{
+			RaycastHit hit;
+			Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 100f, layerMask);
+			GameObject item = null;
+			if(hit.collider) item = hit.collider.gameObject;
+			if (timepassed - fireInterval > 0f)
+			{
+				SpawnItem();
+				//Throw();
+				timepassed = 0f;
+			}
+			else if(item)
+			{
+				if(item.GetComponent<Yeet>())
+					PickUp(item);
+			}
+		}
+		timepassed += Time.deltaTime;
+	}
 
-		float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
+	private void PickUp(GameObject item)
+	{
+		item.transform.parent = itemLocation;
+		hasItem = true;
+	}
 
-		angleX = Mathf.Clamp(angleX, MinimumX, MaximumX);
+	private void Throw()
+	{
+		Rigidbody rb = itemLocation.GetChild(0).GetComponent<Rigidbody>();
+		rb.AddForce(itemLocation.parent.forward * throwForce);
+		itemToBeYeeted.gameObject.transform.parent = null;
+		hasItem = false;
+	}
 
-		q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
-
-		return q;
+	private void SpawnItem()
+	{
+		itemToBeYeeted = (Instantiate(spawn, itemLocation.position, itemLocation.parent.transform.localRotation)).GetComponent<Yeet>();
+		hasItem = true;
 	}
 }
