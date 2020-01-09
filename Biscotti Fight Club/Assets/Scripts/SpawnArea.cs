@@ -10,10 +10,10 @@ public class SpawnType
     public GameObject prefab;
 
     [Tooltip("The maximum amount to spawn at one time.")] 
-    public int max;
+    public int max = 1;
 
     [Tooltip("The minimum amount to spawn at one time.")]
-    public int min;
+    public int min = 1;
 
 }
 
@@ -28,6 +28,7 @@ public class SpawnArea : MonoBehaviour
     private float xMax;
     private float zMin;
     private float zMax;
+    private float timePassed;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,12 @@ public class SpawnArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(timePassed - spawnRate > 0f)
+        {
+            Spawn();
+            timePassed = 0f;
+        }
+        timePassed += Time.unscaledDeltaTime;
     }
 
     public void Spawn()
