@@ -33,15 +33,12 @@ public class SpawnArea : MonoBehaviour
     private bool SetSpawnHeight = false;
     [SerializeField] [DrawIf("SetSpawnHeight", true)]
     private float yPos = 0f;
-    [SerializeField] 
+
     public SpawnMethod spawnMethod = SpawnMethod.Interval;
-    [SerializeField]
     [DrawIf("spawnMethod", SpawnMethod.Interval)]
     public float spawnRate = 3f;
-    [SerializeField]
     [DrawIf("spawnMethod", SpawnMethod.MouseClick)]
     public float fireRate = 2f;
-    [SerializeField]
     [DrawIf("spawnMethod", SpawnMethod.MouseClick)]
     public float fireThreshold = 0.12f;
 
@@ -133,7 +130,7 @@ public class SpawnArea : MonoBehaviour
                 {
                     Transform killMe = instances[0];
                     instances.RemoveAt(0);
-                    Destroy(killMe.gameObject);
+                    if(killMe) Destroy(killMe.gameObject);
                 }
                 float xPos = Random.Range(xMin, xMax);
                 float zPos = Random.Range(zMin, zMax);

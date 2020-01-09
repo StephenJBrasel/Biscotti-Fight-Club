@@ -24,23 +24,32 @@ public class CharacterControls : MonoBehaviour
 
 	private void Update()
 	{
+		Yeet();
+	}
+
+	private void Yeet()
+	{
 		if (Input.GetAxis("Fire1") > 0f)
 		{
-			RaycastHit hit;
-			Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 100f, layerMask);
-			GameObject item = null;
-			if(hit.collider) item = hit.collider.gameObject;
 			if (timepassed - fireInterval > 0f)
 			{
 				SpawnItem();
 				//Throw();
 				timepassed = 0f;
 			}
-			else if(item)
+		}
+		else if (Input.GetAxis("Interact") > 0f)
+		{
+			RaycastHit hit;
+			Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 100f, layerMask);
+			GameObject item = null;
+			if (hit.collider) item = hit.collider.gameObject;
+			if (item)
 			{
-				if(item.GetComponent<Yeet>())
+				if (item.GetComponent<Yeet>())
 					PickUp(item);
 			}
+
 		}
 		timepassed += Time.deltaTime;
 	}

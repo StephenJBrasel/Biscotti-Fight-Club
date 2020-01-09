@@ -3,9 +3,11 @@
 public class Yeet : MonoBehaviour
 {
     [SerializeField] private float force = 3f;
+    [SerializeField] private float lifeInSeconds = 10f;
 
     private Rigidbody rb;
     private Vector3 forwardDirection;
+    private float timePassed = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +22,20 @@ public class Yeet : MonoBehaviour
         rb.velocity = (forwardDirection * force);
         //rb.velocity = Vector3.zero;
         //rb.AddForce(transform.forward * force);
+        if(timePassed - lifeInSeconds > 0f)
+        {
+            Destroy(this.gameObject);
+        }
+        timePassed += Time.deltaTime;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 
     public void Throw()
