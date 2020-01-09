@@ -10,12 +10,6 @@ public class MenuController : MonoBehaviour
 
     private bool isPaused;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +23,7 @@ public class MenuController : MonoBehaviour
             {
                 isPaused = true;
                 PauseMenu.SetActive(true);
-                Time.timeScale = 1;
+                Time.timeScale = 0;
             }
         }
 
@@ -40,7 +34,7 @@ public class MenuController : MonoBehaviour
     {
         isPaused = false;
         PauseMenu.SetActive(false);
-        Time.timeScale = 0;
+        Time.timeScale = 1;
     }
 
 
