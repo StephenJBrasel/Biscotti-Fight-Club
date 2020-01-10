@@ -124,3 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 25
+  lifeInSeconds: 10
+  deathParticles: {fileID: 3117451706145771616, guid: aed52edaa6c4bb842a558bd84a3a88af,
+    type: 3}

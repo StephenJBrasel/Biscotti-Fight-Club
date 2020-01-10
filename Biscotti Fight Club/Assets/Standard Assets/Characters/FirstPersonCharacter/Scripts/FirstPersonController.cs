@@ -239,6 +239,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MouseLook.LookRotation (transform, m_Camera.transform);
         }
 
+        public void SetCursorLock(bool value)
+        {
+            m_MouseLook.SetCursorLock(value);
+        }
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {

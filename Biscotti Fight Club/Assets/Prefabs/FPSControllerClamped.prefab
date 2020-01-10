@@ -44,6 +44,8 @@ GameObject:
   - component: {fileID: 6259060807409595001}
   - component: {fileID: 6259060807407536377}
   - component: {fileID: 2534580418149808448}
+  - component: {fileID: 2481383425205999178}
+  - component: {fileID: 3524149623146416275}
   m_Layer: 0
   m_Name: FPSControllerClamped
   m_TagString: Player
@@ -337,13 +339,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasItem: 0
-  itemLocation: {fileID: 0}
-  spawn: {fileID: 0}
+  itemLocation: {fileID: 8822070277820044874}
+  spawn: {fileID: 7746464980917685287, guid: 142e5f3d4d06be745abaf5a5ba087cc1, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 256
   throwForce: 10000
   fireInterval: 1
+--- !u!114 &2481383425205999178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259060807412486425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 751def9b19cc57f4e9ede737fe14bd76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 50
+  minHealth: 0
+  willClampMaxHealth: 0
+  thresholds:
+  - healthThreshold: 0
+    thresholdEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    continuousthresholdEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  HurtEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: ResetAlpha
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  HealEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3524149623146416275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259060807412486425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21ab254ca1ef05418951d03b95d632b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 5
+  takeDamageInterval: 3
+  compareTag: Enemy
+  healthSystem: {fileID: 2481383425205999178}
 --- !u!1 &6259060807412486427
 GameObject:
   m_ObjectHideFlags: 0

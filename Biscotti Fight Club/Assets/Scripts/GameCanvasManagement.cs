@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GameCanvasManagement : MonoBehaviour
 {
 	public bool DisplayCanvas = true;
-	[SerializeField] private Canvas OverlayCanvas;
 	[SerializeField] private Text ItemInteract;
 	[SerializeField] private LayerMask layerMask;
 	[SerializeField] private CharacterControls charControls;
@@ -18,8 +17,8 @@ public class GameCanvasManagement : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		//camera = GetComponent<Camera>();
-		UpdateItemInteractText();
+		if(camera == null) camera = GetComponent<Camera>();
+		UpdateItemInteractText("");
 	}
 
 	// Update is called once per frame
@@ -32,11 +31,11 @@ public class GameCanvasManagement : MonoBehaviour
 				layerMask) &&
 			!charControls.hasItem)
 		{
-			OverlayCanvas.enabled = true;
+			ItemInteract.enabled = true;
 		}
 		else
 		{
-			OverlayCanvas.enabled = false;
+			ItemInteract.enabled = false;
 		}
 	}
 
@@ -45,9 +44,8 @@ public class GameCanvasManagement : MonoBehaviour
 		//Gizmos.DrawRay(camera.transform.position, camera.transform.forward * RayLength);
 	}
 
-	private void UpdateItemInteractText()
+	private void UpdateItemInteractText(string nameOfInteractable = "")
 	{
-		string InteractButton = "E";
-		ItemInteract.text = $"Press\n{InteractButton}";
+		ItemInteract.text = $"'E' Interact\n{nameOfInteractable}";
 	}
 }
