@@ -6873,7 +6873,7 @@ PrefabInstance:
       propertyPath: m_Text
       value: 'Press
 
-''        E'''
+''                E'''
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e0a5c38eb161e24db533680f9d5a855, type: 3}
@@ -8771,6 +8771,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Counter(placeholder) (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3398202308736352918, guid: 8a4f63003f0a6d447b7b5aa1bddaec73,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3398202308736352937, guid: 8a4f63003f0a6d447b7b5aa1bddaec73,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9445,6 +9450,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Biscotti (P2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583621468397189037, guid: 574040a5e31710c42ae998dbb88bd276,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 574040a5e31710c42ae998dbb88bd276, type: 3}
