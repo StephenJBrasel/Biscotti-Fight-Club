@@ -8,10 +8,22 @@ public class HealthThreshold
 {
 	[Tooltip("The threshold at or below which the events will occur.")]
 	public float healthThreshold;
-	[Tooltip("An instantaneous event that occurs once health falls below the healthThreshold.")]
+	//[Tooltip("An instantaneous event that occurs once health falls below the healthThreshold.")]
 	public UnityEvent thresholdEvent;
-	[Tooltip("An ongoing event that occurs while health is below the healthThreshold.")]
+	//[Tooltip("An ongoing event that occurs while health is below the healthThreshold.")]
 	public UnityEvent continuousthresholdEvent;
+
+	public bool isInvoked { get; private set; } = false;
+
+	public void ResetThreshold()
+	{
+		isInvoked = false;
+	}
+
+	public void SetInvoke()
+	{
+		isInvoked = true;
+	}
 }
 
 public class HealthSystem : MonoBehaviour
@@ -19,8 +31,10 @@ public class HealthSystem : MonoBehaviour
 	[Header("Health")]
 	[SerializeField] private float maxHealth = 10f;
 	[SerializeField] private float minHealth = 0f;
+	[SerializeField] private bool willClampMaxHealth = true;
 	[SerializeField] private HealthThreshold[] thresholds;
 
+	[Header("Health Events")] [Space]
 	public UnityEvent DeathEvent;
 	public UnityEvent HurtEvent;
 	public UnityEvent HealEvent;
@@ -72,7 +86,13 @@ public class HealthSystem : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		foreach (HealthThreshold ht in thresholds)
+		{
+			if (health < ht.healthThreshold)
+			{
+				ht.continuousthresholdEvent.Invoke();
+			}
+		}
 	}
 
 	/// <summary>
@@ -87,9 +107,28 @@ public class HealthSystem : MonoBehaviour
 			DeathEvent.Invoke();
 			return;
 		}
-		if (health + value < maxHealth)
+		if (health + value <= maxHealth)
 		{
 			health += value;
+		} 
+		else 
+		{
+			if (willClampMaxHealth)
+				health = maxHealth;
+			else
+				health += value;
+		}
+		foreach(HealthThreshold ht in thresholds)
+		{
+			if(health < ht.healthThreshold && !ht.isInvoked)
+			{
+				ht.thresholdEvent.Invoke();
+				ht.SetInvoke();
+			} 
+			else if (health > ht.healthThreshold)
+			{
+				ht.ResetThreshold();
+			}
 		}
 
 		if(value < 0)

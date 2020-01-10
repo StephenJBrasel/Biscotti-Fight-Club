@@ -18,6 +18,7 @@ public class FadeImage : MonoBehaviour
 			image = GetComponent<Image>();
 		}
 
+		image.gameObject.SetActive(true);
 		Color tempColor = image.color;
 		tempColor.a = 0f;
 		image.color = tempColor;
