@@ -304,6 +304,12 @@ PrefabInstance:
       propertyPath: spawnTypes.Array.data[0].max
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5368449649755191245, guid: 4daa3fe694b50d546a88b316978db194,
+        type: 3}
+      propertyPath: spawnTypes.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 8722616733725256236, guid: b80479cb1bc8c5340a3a969668d36b56,
+        type: 3}
     - target: {fileID: 5368449649755191249, guid: 4daa3fe694b50d546a88b316978db194,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6873,7 +6879,7 @@ PrefabInstance:
       propertyPath: m_Text
       value: 'Press
 
-''                E'''
+''                        E'''
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e0a5c38eb161e24db533680f9d5a855, type: 3}
