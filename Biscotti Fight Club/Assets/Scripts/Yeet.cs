@@ -5,6 +5,7 @@ public class Yeet : MonoBehaviour
     [SerializeField] private float force = 3f;
     [SerializeField] private float lifeInSeconds = 10f;
 
+    public ParticleSystem deathParticles;
     private Rigidbody rb;
     private Vector3 forwardDirection;
     private float timePassed = 0f;
@@ -34,6 +35,7 @@ public class Yeet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(collision.gameObject);
+            Instantiate(deathParticles, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }
