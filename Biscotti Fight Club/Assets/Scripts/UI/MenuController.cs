@@ -35,8 +35,11 @@ public class MenuController : MonoBehaviour
 
 	public void PauseGame()
 	{
-		FPcontrol.SetCursorLock(false);
-		FPcontrol.enabled = false;
+		if (FPcontrol)
+		{
+			FPcontrol.SetCursorLock(false);
+			FPcontrol.enabled = false;
+		}
 		isPaused = true;
 		PauseMenu.SetActive(true);
 		Time.timeScale = 0;
@@ -44,8 +47,11 @@ public class MenuController : MonoBehaviour
 
 	public void ResumeGame()
 	{
-		FPcontrol.enabled = true;
-		FPcontrol.SetCursorLock(true);
+		if (FPcontrol)
+		{
+			FPcontrol.enabled = true;
+			FPcontrol.SetCursorLock(true);
+		}
 		isPaused = false;
 		PauseMenu.SetActive(false);
 		Time.timeScale = 1;
@@ -53,8 +59,11 @@ public class MenuController : MonoBehaviour
 
 	public void GameOver()
 	{
-		FPcontrol.SetCursorLock(false);
-		FPcontrol.enabled = false;
+		if (FPcontrol)
+		{
+			FPcontrol.SetCursorLock(false);
+			FPcontrol.enabled = false;
+		}
 		GameOverMenu.SetActive(true);
 		Time.timeScale = 0;
 	}
@@ -63,6 +72,11 @@ public class MenuController : MonoBehaviour
 	{
 		Time.timeScale = 1;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void LoadScene(string sceneName)
+	{
+		SceneManager.LoadScene(sceneName);
 	}
 
 	//public void MainMenu()
