@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 45711020}
   - component: {fileID: 45711024}
   - component: {fileID: 45711025}
+  - component: {fileID: 45711026}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -587,8 +588,8 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 52306086}
+  m_PlaneDistance: 0
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -651,6 +652,18 @@ MonoBehaviour:
   startAlpha: 0.673
   image: {fileID: 1979659892}
   fadeSpeed: 0.9
+--- !u!225 &45711026
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45711019}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &46935205
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +756,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 26.025002, y: 107.146, z: -33.897003}
+--- !u!20 &52306086 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6259060807413994297, guid: c635c9fdcc797354dba6ee04f700fd6d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1830586133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &92459661
 PrefabInstance:
   m_ObjectHideFlags: 0

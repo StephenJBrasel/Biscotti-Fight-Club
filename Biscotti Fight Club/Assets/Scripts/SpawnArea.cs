@@ -94,7 +94,7 @@ public class SpawnArea : MonoBehaviour
             fired = false;
             timePassed = 0f;
         }
-        timePassed += Time.unscaledDeltaTime;
+        timePassed += Time.deltaTime;
     }
 
     private void IntervalSpawn()
@@ -104,7 +104,7 @@ public class SpawnArea : MonoBehaviour
             Spawn();
             timePassed = 0f;
         }
-        timePassed += Time.unscaledDeltaTime;
+        timePassed += Time.deltaTime;
     }
 
     public void Spawn()
